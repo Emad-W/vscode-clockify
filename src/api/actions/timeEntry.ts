@@ -268,3 +268,30 @@ export async function stopTimeentry(
 		});
 	return timeentry;
 }
+
+/**
+ * *Edits a stopped time entry on workspace
+ * 
+ * If workspace has a required field enabled (eg. the Timesheet is enabled and project is a required field as a result), you won't be able to stop the timer until you fill in the required field(s). You'll simply get "Entity not created" message.
+ * @param workspaceId Workspace ID
+ * @param userId User ID
+ * @param newTimeentry New Timeentry
+ */
+export async function updateTimeEntry(
+	workspaceId: string,
+	userId: string,
+	newTimeentry: UpdateTimeEntryRequest
+): Promise<TimeEntryDtoImpl> {
+	let query = `/workspaces/${workspaceId}/user/${userId}/time-entries`;
+	let timeentry: TimeEntryDtoImpl = {} as TimeEntryDtoImpl;
+	await http
+		.patch(query, newTimeentry)
+		.then((res) => {
+			timeentry = res.data;
+		})
+		.catch((error) => {
+			throw new ApiError(error);
+			//// timeentry = {} as TimeEntryDtoImpl;
+		});
+	return timeentry;
+}

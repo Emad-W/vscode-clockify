@@ -4,7 +4,9 @@ import { getWorkspaces } from '../api/actions/workspace';
 
 export async function selectWorkspace(): Promise<string> {
 	const config = vscode.workspace.getConfiguration('clockify');
-	let workspaceId: string = config.get('workspaceId') || '';
+	let workspaceId: string = config.get('tracking.workspaceId') || '';
+	console.log(config.get('tracking.workspaceId'));
+	console.log(config.get('workspaceId'));
 
 	if (!workspaceId) {
 		const workspaces = await getWorkspaces();
